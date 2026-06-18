@@ -1,0 +1,12 @@
+{
+  "_comment": "Edit these fields to fill in your details. Anything left as YOUR_* is treated as a placeholder and hidden in the UI.",
+  "name": "Celine Darvas",
+  "tagline": "Data analyst · learning analytics · multi-source ETL",
+  "email": "ceiliine@umich.edu",
+  "github": "https://github.com/YOUR_HANDLE",
+  "linkedin": "https://www.linkedin.com/in/YOUR_HANDLE/",
+  "website": "",
+  "project_title": "Learning Analytics Dashboard",
+  "project_subtitle": "Response-time behavior and accuracy patterns across 520 learners and four assessment domains.",
+  "project_blurb": "19,608 student responses across four technical subjects (Python, Pandas, SQL/DuckDB, Data Visualization). Source data came in four different formats. I loaded and cleaned them in Python, ran the analysis in 8 DuckDB SQL queries, then built this self-contained dashboard."
+}

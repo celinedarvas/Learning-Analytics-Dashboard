@@ -1,0 +1,1126 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Learning Analytics Dashboard</title>
+<meta name="description" content="A learning-analytics case study covering 19,608 student responses across four technical assessment domains." />
+<meta name="referrer" content="no-referrer" />
+<meta name="color-scheme" content="light" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<script
+  src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"
+  integrity="sha384-NrKB+u6Ts6AtkIhwPixiKTzgSKNblyhlk0Sohlgar9UHUBzai/sgnNNWWd291xqt"
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+></script>
+<style>
+  :root {
+    --bg: #f5f5f7;
+    --surface: #ffffff;
+    --surface-2: #fafafb;
+    --border: #e5e7eb;
+    --text: #111827;
+    --text-muted: #6b7280;
+    --text-soft: #9ca3af;
+    --accent: #2563eb;
+    --accent-2: #7c3aed;
+    --good: #10b981;
+    --warn: #f59e0b;
+    --bad: #ef4444;
+    --d1: #2563eb;
+    --d2: #7c3aed;
+    --d3: #db2777;
+    --shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 8px 24px -12px rgba(15, 23, 42, 0.08);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.5;
+  }
+  header.topbar {
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+    color: #fff;
+    padding: 36px 32px 32px;
+    border-bottom: 1px solid #0b1220;
+  }
+  header.topbar .eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #93c5fd;
+    margin-bottom: 6px;
+    font-weight: 600;
+  }
+  header.topbar h1 {
+    margin: 0;
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+  header.topbar p {
+    margin: 6px 0 0;
+    color: #cbd5e1;
+    font-size: 14px;
+    max-width: 760px;
+  }
+  header.topbar .byline {
+    margin-top: 14px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 14px;
+    align-items: center;
+    font-size: 13px;
+    color: #cbd5e1;
+  }
+  header.topbar .byline strong { color: #fff; font-weight: 600; }
+  header.topbar .byline a {
+    color: #93c5fd;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(147, 197, 253, 0.35);
+  }
+  header.topbar .byline a:hover { color: #fff; border-bottom-color: #fff; }
+  header.topbar .byline .sep {
+    color: #475569;
+  }
+  .container {
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: 24px 32px 64px;
+  }
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+  .kpi {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 18px 18px 16px;
+    box-shadow: var(--shadow);
+    position: relative;
+    overflow: hidden;
+  }
+  .kpi::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    opacity: 0.9;
+  }
+  .kpi .label {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    font-weight: 600;
+  }
+  .kpi .value {
+    font-size: 28px;
+    font-weight: 700;
+    margin-top: 6px;
+    font-variant-numeric: tabular-nums;
+  }
+  .kpi .sub {
+    font-size: 12px;
+    color: var(--text-soft);
+    margin-top: 2px;
+  }
+  .section-title {
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin: 32px 0 12px;
+    font-weight: 700;
+  }
+  .grid-2 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+    gap: 16px;
+  }
+  .grid-3 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 16px;
+  }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 18px 20px 20px;
+    box-shadow: var(--shadow);
+  }
+  .card h2 {
+    margin: 0 0 4px;
+    font-size: 15px;
+    font-weight: 600;
+  }
+  .card .muted {
+    color: var(--text-muted);
+    font-size: 12px;
+    margin: 0 0 14px;
+  }
+  .chart-wrap {
+    position: relative;
+    height: 260px;
+  }
+  .chart-wrap.tall { height: 320px; }
+  table.data {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  table.data th, table.data td {
+    text-align: left;
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--border);
+    font-variant-numeric: tabular-nums;
+  }
+  table.data th {
+    color: var(--text-muted);
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    background: var(--surface-2);
+  }
+  table.data tr:last-child td { border-bottom: 0; }
+  .pill {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 600;
+    background: #eef2ff;
+    color: #4338ca;
+  }
+  .pill.d1 { background: rgba(37,99,235,0.1); color: var(--d1); }
+  .pill.d2 { background: rgba(124,58,237,0.1); color: var(--d2); }
+  .pill.d3 { background: rgba(219,39,119,0.1); color: var(--d3); }
+  .pill.python_fundamentals { background: rgba(245,158,11,0.12); color: #b45309; }
+  .pill.pandas_core { background: rgba(37,99,235,0.12); color: #1d4ed8; }
+  .pill.sql_duckdb { background: rgba(16,185,129,0.12); color: #047857; }
+  .pill.data_viz { background: rgba(124,58,237,0.12); color: #6d28d9; }
+  .domain-tabs {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+  }
+  .tab {
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text-muted);
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .tab:hover { color: var(--text); }
+  .tab.active {
+    background: var(--text);
+    color: #fff;
+    border-color: var(--text);
+  }
+  .insight {
+    background: linear-gradient(135deg, rgba(37,99,235,0.06), rgba(124,58,237,0.06));
+    border: 1px solid rgba(37,99,235,0.18);
+    border-radius: 14px;
+    padding: 18px 20px;
+  }
+  .insight h2 { margin: 0 0 6px; font-size: 14px; }
+  .insight p { margin: 0 0 6px; font-size: 13px; color: #1f2937; }
+  .insight strong { color: var(--text); }
+  .findings-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 22px 24px 8px;
+    box-shadow: var(--shadow);
+    margin-bottom: 28px;
+  }
+  .findings-head h2 {
+    margin: 0 0 4px;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+  .findings-head .findings-sub {
+    margin: 0 0 14px;
+    color: var(--text-muted);
+    font-size: 13px;
+  }
+  ol.findings-list {
+    margin: 0;
+    padding-left: 22px;
+    counter-reset: finding;
+    list-style: none;
+  }
+  ol.findings-list li {
+    position: relative;
+    margin: 0 0 14px;
+    padding-left: 8px;
+    font-size: 14px;
+    color: #1f2937;
+    line-height: 1.55;
+    counter-increment: finding;
+  }
+  ol.findings-list li::before {
+    content: counter(finding);
+    position: absolute;
+    left: -22px;
+    top: 1px;
+    width: 22px;
+    height: 22px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  ol.findings-list li strong { color: var(--text); }
+  ol.findings-list li code {
+    background: #f1f5f9;
+    padding: 1px 5px;
+    border-radius: 4px;
+    font-size: 12px;
+  }
+  .finding-source {
+    display: flex;
+    width: fit-content;
+    align-items: center;
+    gap: 4px;
+    margin-top: 10px;
+    font-size: 12px;
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px dashed rgba(37, 99, 235, 0.4);
+    padding-bottom: 1px;
+    transition: color 0.15s, border-color 0.15s, background 0.15s;
+  }
+  .finding-source:hover {
+    color: #fff;
+    background: var(--accent);
+    border-bottom-color: var(--accent);
+    border-radius: 4px;
+    padding: 1px 6px;
+    margin-left: -6px;
+  }
+  .finding-source:hover em { color: #fff; }
+  .finding-source em {
+    color: var(--text);
+    font-style: normal;
+    font-weight: 500;
+  }
+  .finding-arrow {
+    font-size: 11px;
+    line-height: 1;
+    opacity: 0.7;
+  }
+  .finding-source:hover .finding-arrow { opacity: 1; }
+  /* Smooth scroll for in-page jumps from the recap to a chart */
+  html { scroll-behavior: smooth; }
+  /* Land the card a comfortable distance from the top, not flush */
+  .card { scroll-margin-top: 24px; }
+  /* Brief highlight pulse so the user can see which chart they jumped to */
+  @keyframes highlight-pulse {
+    0%   { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0), var(--shadow); }
+    20%  { box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.45), var(--shadow); }
+    100% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0), var(--shadow); }
+  }
+  .card:target,
+  .card.flash {
+    animation: highlight-pulse 1.6s ease-out;
+  }
+  /* Differentiate the "What I learned" card from "What I found" */
+  .learnings-card ol.findings-list li::before {
+    background: linear-gradient(135deg, #10b981, #0ea5e9);
+  }
+  .about {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+  @media (max-width: 900px) { .about { grid-template-columns: 1fr; } }
+  .about .lede {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 22px 24px;
+    box-shadow: var(--shadow);
+  }
+  .about .lede h2 {
+    margin: 0 0 10px;
+    font-size: 18px;
+    font-weight: 700;
+  }
+  .about .lede p {
+    margin: 0 0 10px;
+    color: #374151;
+    font-size: 14px;
+  }
+  .skills-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 22px 24px;
+    box-shadow: var(--shadow);
+  }
+  .skills-card h3 {
+    margin: 0 0 10px;
+    font-size: 12px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .chip-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 14px;
+  }
+  .chip {
+    background: #eef2ff;
+    color: #3730a3;
+    border-radius: 999px;
+    padding: 4px 10px;
+    font-size: 12px;
+    font-weight: 500;
+  }
+  .chip.tool { background: #ecfdf5; color: #065f46; }
+  .chip.skill { background: #fef3c7; color: #92400e; }
+  footer {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+    color: var(--text-soft);
+    font-size: 12px;
+    text-align: center;
+  }
+  code, .mono { font-family: 'JetBrains Mono', monospace; font-size: 12px; }
+  .progress-bar {
+    background: #eef2ff;
+    height: 8px;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .progress-bar > span {
+    display: block;
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  }
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="eyebrow" id="eyebrow">Portfolio · Analytics case study</div>
+  <h1 id="project-title">Learning Analytics Dashboard</h1>
+  <p id="project-subtitle">Cross-domain assessment performance, response-time behavior, and cohort effects.</p>
+  <div class="byline" id="byline"></div>
+</header>
+
+<main class="container">
+  <!-- About / case study framing -->
+  <section class="about">
+    <div class="lede">
+      <h2>About this project</h2>
+      <p id="project-blurb">An end-to-end analytics case study covering 19,608 student responses across four technical assessment domains.</p>
+      <p>
+        Source data comes in four different formats: CSV, newline-delimited JSON, Parquet, and YAML.
+        The build pipeline loads each one, cleans them with the rules in the table below, anonymizes every identifier with a deterministic mapping, then runs the analytical queries that produce this self-contained dashboard.
+      </p>
+    </div>
+    <div class="skills-card">
+      <h3>Skills demonstrated</h3>
+      <div class="chip-row">
+        <span class="chip skill">Multi-source ETL</span>
+        <span class="chip skill">Data cleaning</span>
+        <span class="chip skill">SQL analytics</span>
+        <span class="chip skill">Window functions</span>
+        <span class="chip skill">Data viz design</span>
+        <span class="chip skill">PII anonymization</span>
+      </div>
+      <h3>Tools</h3>
+      <div class="chip-row">
+        <span class="chip tool">Python</span>
+        <span class="chip tool">pandas</span>
+        <span class="chip tool">DuckDB</span>
+        <span class="chip tool">PyArrow</span>
+        <span class="chip tool">PyYAML</span>
+        <span class="chip tool">Chart.js</span>
+        <span class="chip tool">HTML/CSS/JS</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- KPI strip -->
+  <section id="kpis" class="kpi-grid"></section>
+
+  <!-- Coverage + difficulty -->
+  <div class="section-title">Coverage &amp; Difficulty</div>
+  <div class="grid-2">
+    <div class="card">
+      <h2>Domain coverage</h2>
+      <p class="muted">Distinct students with at least one non-abandoned session.</p>
+      <div class="chart-wrap"><canvas id="chart-domain-coverage"></canvas></div>
+    </div>
+    <div class="card" id="card-sessions-stack">
+      <h2>Sessions completed vs abandoned</h2>
+      <p class="muted">Stacked by domain. Abandoned = student left the session early.</p>
+      <div class="chart-wrap"><canvas id="chart-sessions-stack"></canvas></div>
+    </div>
+    <div class="card" id="card-accuracy-difficulty">
+      <h2>Accuracy by difficulty</h2>
+      <p class="muted">Accuracy declines as questions get harder: D1 → D2 → D3.</p>
+      <div class="chart-wrap"><canvas id="chart-accuracy-difficulty"></canvas></div>
+    </div>
+    <div class="card">
+      <h2>Accuracy by cohort &amp; domain</h2>
+      <p class="muted">Mean accuracy on knowledge / application questions.</p>
+      <div class="chart-wrap"><canvas id="chart-cohort-domain"></canvas></div>
+    </div>
+  </div>
+
+  <!-- Response time -->
+  <div class="section-title">Response Time</div>
+  <div class="grid-2">
+    <div class="card">
+      <h2>Response time distribution</h2>
+      <p class="muted">Right-skewed. Log-spaced bins make the tail readable.</p>
+      <div class="chart-wrap"><canvas id="chart-rt-hist"></canvas></div>
+    </div>
+    <div class="card" id="card-seq-trend">
+      <h2>Response time across sequence position</h2>
+      <p class="muted">Spike at the start of a session, then a learning-effect decline.</p>
+      <div class="chart-wrap"><canvas id="chart-seq-trend"></canvas></div>
+    </div>
+  </div>
+
+  <!-- Synthesis -->
+  <div class="section-title">Synthesis</div>
+  <div class="grid-2">
+    <div class="card" id="card-rt-correct">
+      <h2>Mean response time: correct vs incorrect</h2>
+      <p class="muted">Times are nearly identical regardless of correctness. Students aren't guessing.</p>
+      <div class="chart-wrap"><canvas id="chart-rt-correct"></canvas></div>
+    </div>
+    <div class="insight">
+      <h2>What surprised me</h2>
+      <p>Across all four domains, students spend about the <strong>same time on wrong answers as on right ones</strong>. Median is 52-54s either way.</p>
+      <p>The biggest difference is <code>sql_duckdb</code>, where incorrect answers come in about 3s faster than correct ones. In <code>pandas_core</code> it's the opposite: students spend about 2s longer on the questions they miss.</p>
+      <p>So wrong answers are not a pacing problem. They're a content problem. If I were a teacher looking at this, I'd be working on what's being taught, not how fast students answer.</p>
+    </div>
+  </div>
+
+  <!-- Top performers -->
+  <div class="section-title">Top performers per domain</div>
+  <div class="card">
+    <h2>Top 10 students by accuracy</h2>
+    <p class="muted" id="top-caption">Switch domains to see leaders in each subject area.</p>
+    <div id="top-tabs" class="domain-tabs"></div>
+    <div id="top-table"></div>
+  </div>
+
+  <!-- Completers + cleaning -->
+  <div class="section-title">Completers &amp; Data Pipeline</div>
+  <div class="grid-2">
+    <div class="card" id="card-completers">
+      <h2>Learners who completed all four domains</h2>
+      <p class="muted" id="completers-summary"></p>
+      <div style="max-height: 320px; overflow-y: auto;">
+        <table class="data" id="completers-table">
+          <thead>
+            <tr>
+              <th>Learner ID</th><th>Cohort</th><th>Program</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="card">
+      <h2>Event-cleaning pipeline</h2>
+      <p class="muted">Rows remaining after each cleaning step on <code>events.csv</code>: dedupe → regex-validate <code>student_id</code> (<code>^U\d{8}$</code>) → drop blank timestamps.</p>
+      <table class="data" id="cleaning-table">
+        <thead><tr><th>Step</th><th style="text-align:right">Rows</th><th style="text-align:right">Retention</th></tr></thead>
+        <tbody></tbody>
+      </table>
+      <h2 style="margin-top: 18px;">Question bank shape</h2>
+      <p class="muted">Knowledge / application questions per domain &amp; difficulty.</p>
+      <div class="chart-wrap" style="height: 220px;"><canvas id="chart-qbank"></canvas></div>
+    </div>
+  </div>
+
+  <!-- Recap: What I found + What I learned -->
+  <div class="section-title">Recap</div>
+
+  <section class="findings-card">
+    <div class="findings-head">
+      <h2>What I found</h2>
+      <p class="findings-sub">Five things came out of the analysis. Number 3 is the one I didn't expect.</p>
+    </div>
+    <ol class="findings-list">
+      <li>
+        <strong>The difficulty levels are calibrated correctly.</strong>
+        Average accuracy drops from 69.9% on the easy questions (D1) to 67.8% on the hardest ones (D3). A 2.1-point drop across three difficulty levels means the difficulty system is doing real work. Not so steep that nobody finishes the hard questions, not so flat that difficulty doesn't matter.
+        <a class="finding-source" href="#card-accuracy-difficulty">See chart: <em>Accuracy by difficulty</em><span class="finding-arrow" aria-hidden="true">↑</span></a>
+      </li>
+      <li>
+        <strong>Response time is highest on the first question of each session, then drops.</strong>
+        Classic learning-curve shape. Students take longer on the first question because they're getting used to the platform interface, then they speed up over the next few questions.
+        <a class="finding-source" href="#card-seq-trend">See chart: <em>Response time across sequence position</em><span class="finding-arrow" aria-hidden="true">↑</span></a>
+      </li>
+      <li>
+        <strong>Wrong answers do not take less time than right answers.</strong>
+        This was the surprise. I expected wrong answers to be faster (rushing) or slower (struggling). But mean response time is 52-54 seconds on both correct and incorrect answers, across all four subjects. So wrong answers are not a pacing problem. They're a content gap. For a teacher, that changes what to fix.
+        <a class="finding-source" href="#card-rt-correct">See chart: <em>Mean response time: correct vs incorrect</em><span class="finding-arrow" aria-hidden="true">↑</span></a>
+      </li>
+      <li>
+        <strong>About half the cohort finishes the full curriculum.</strong>
+        248 of 520 students completed all four subjects (47.7%). The other 52.3% completed only 1, 2, or 3 subjects.
+        <a class="finding-source" href="#card-completers">See table: <em>Learners who completed all four domains</em><span class="finding-arrow" aria-hidden="true">↑</span></a>
+      </li>
+      <li>
+        <strong>9.3% of sessions get abandoned, evenly across the four subjects.</strong>
+        No single subject is the cause. So the abandonment isn't "SQL is too hard" or "data viz is boring." It's something about format, timing, or motivation that applies to all four.
+        <a class="finding-source" href="#card-sessions-stack">See chart: <em>Sessions completed vs abandoned</em><span class="finding-arrow" aria-hidden="true">↑</span></a>
+      </li>
+    </ol>
+  </section>
+
+  <section class="findings-card learnings-card">
+    <div class="findings-head">
+      <h2>What I learned</h2>
+      <p class="findings-sub">Six things I picked up doing this. The skills behind the numbers above.</p>
+    </div>
+    <ol class="findings-list">
+      <li>
+        <strong>Real data is never clean.</strong>
+        Four source files in four different formats (CSV, NDJSON, Parquet, YAML). Each one needed its own loader. The events file had duplicates and malformed IDs that needed cleaning. The sessions JSON had nested metadata I had to flatten before joining. None of these were ready to use straight from disk.
+      </li>
+      <li>
+        <strong>Window functions replace UNIONs.</strong>
+        <code>RANK() OVER (PARTITION BY domain ORDER BY accuracy DESC)</code> gives the top 3 students per subject in one query. Without it, I'd write four separate queries (one per subject) and stitch them together with UNION. Shorter to read and faster to run.
+      </li>
+      <li>
+        <strong>HAVING is for groups, WHERE is for rows.</strong>
+        "Students who completed all four subjects" is a property of the group of rows, not of any single row. So it has to go in HAVING after the GROUP BY, not in WHERE.
+      </li>
+      <li>
+        <strong>Right-skewed data needs log bins.</strong>
+        The response-time histogram above has log-spaced bins. I tried linear bins first. 95% of the bar was in one tall column on the left and the long tail of slow answers was invisible. Log bins fixed it without changing any data.
+      </li>
+      <li>
+        <strong>Anonymizing PII is not one regex.</strong>
+        First pass replaces real student IDs with <code>S-001</code>, <code>S-002</code>, etc. Second pass catches malformed IDs in the raw events file that embed real IDs as substrings. The PII audit only passed after both passes ran.
+      </li>
+      <li>
+        <strong>Build pipelines beat hand-edits.</strong>
+        This dashboard is a template HTML, a build script, and a JSON data file. Running the script regenerates <code>index.html</code>. If I hand-edited it every time the data changed, I'd be patching it forever and the dashboard would drift from the source data.
+      </li>
+    </ol>
+  </section>
+
+  <footer id="footer">
+    Self-contained static dashboard · all identifiers anonymized
+  </footer>
+</main>
+
+<script id="dashboard-data" type="application/json">{"profile":{"name":"Celine Darvas","tagline":"Data analyst \u00b7 learning analytics \u00b7 multi-source ETL","email":"ceiliine@umich.edu","website":"","project_title":"Learning Analytics Dashboard","project_subtitle":"Response-time behavior and accuracy patterns across 520 learners and four assessment domains.","project_blurb":"19,608 student responses across four technical subjects (Python, Pandas, SQL/DuckDB, Data Visualization). Source data came in four different formats. I loaded and cleaned them in Python, ran the analysis in 8 DuckDB SQL queries, then built this self-contained dashboard."},"kpis":{"total_students":520,"total_sessions":1832,"abandoned_sessions":170,"abandoned_pct":9.27947598253275,"total_responses":19608,"knowledge_responses":11514,"overall_accuracy_pct":69.07243355914538,"median_response_time":44.0,"domains":["data_viz","pandas_core","python_fundamentals","sql_duckdb"],"cohorts":["F2025","W2025","W2026"]},"domain_coverage":[{"domain":"pandas_core","distinct_students":421},{"domain":"python_fundamentals","distinct_students":421},{"domain":"sql_duckdb","distinct_students":417},{"domain":"data_viz","distinct_students":403}],"sessions_by_domain":[{"domain":"data_viz","total":456,"abandoned":53,"completed":403},{"domain":"pandas_core","total":461,"abandoned":40,"completed":421},{"domain":"python_fundamentals","total":461,"abandoned":40,"completed":421},{"domain":"sql_duckdb","total":454,"abandoned":37,"completed":417}],"accuracy_by_difficulty":[{"difficulty":"D1","mean_accuracy_pct":69.92715920915713,"n":2883},{"difficulty":"D2","mean_accuracy_pct":69.03225806451613,"n":6975},{"difficulty":"D3","mean_accuracy_pct":67.7536231884058,"n":1656}],"accuracy_cohort_domain":[{"cohort":"F2025","domain":"data_viz","mean_accuracy_pct":67.46031746031747,"n_responses":504},{"cohort":"F2025","domain":"pandas_core","mean_accuracy_pct":70.550576184379,"n_responses":781},{"cohort":"F2025","domain":"python_fundamentals","mean_accuracy_pct":69.85008328706274,"n_responses":1801},{"cohort":"F2025","domain":"sql_duckdb","mean_accuracy_pct":69.04761904761905,"n_responses":672},{"cohort":"W2025","domain":"data_viz","mean_accuracy_pct":74.52830188679245,"n_responses":212},{"cohort":"W2025","domain":"pandas_core","mean_accuracy_pct":66.34615384615384,"n_responses":312},{"cohort":"W2025","domain":"python_fundamentals","mean_accuracy_pct":69.9468085106383,"n_responses":752},{"cohort":"W2025","domain":"sql_duckdb","mean_accuracy_pct":67.29323308270678,"n_responses":266},{"cohort":"W2026","domain":"data_viz","mean_accuracy_pct":69.6470588235294,"n_responses":850},{"cohort":"W2026","domain":"pandas_core","mean_accuracy_pct":67.96536796536796,"n_responses":1386},{"cohort":"W2026","domain":"python_fundamentals","mean_accuracy_pct":68.68265554396942,"n_responses":2877},{"cohort":"W2026","domain":"sql_duckdb","mean_accuracy_pct":69.02815622161671,"n_responses":1101}],"all_four_completers":{"count":248,"students":[{"student_id":"S-001","uniqname":"learner001","cohort":"F2025","program":"MHI"},{"student_id":"S-006","uniqname":"learner006","cohort":"F2025","program":"PhD"},{"student_id":"S-008","uniqname":"learner008","cohort":"W2026","program":"MHI"},{"student_id":"S-009","uniqname":"learner009","cohort":"W2026","program":"PhD"},{"student_id":"S-015","uniqname":"learner015","cohort":"F2025","program":"BSI"},{"student_id":"S-018","uniqname":"learner018","cohort":"W2025","program":"MSI"},{"student_id":"S-021","uniqname":"learner021","cohort":"W2026","program":"MHI"},{"student_id":"S-023","uniqname":"learner023","cohort":"W2026","program":"MHI"},{"student_id":"S-024","uniqname":"learner024","cohort":"F2025","program":"PhD"},{"student_id":"S-030","uniqname":"learner030","cohort":"F2025","program":"BSI"},{"student_id":"S-031","uniqname":"learner031","cohort":"W2026","program":"PhD"},{"student_id":"S-035","uniqname":"learner035","cohort":"W2026","program":"MHI"},{"student_id":"S-039","uniqname":"learner039","cohort":"W2026","program":"PhD"},{"student_id":"S-041","uniqname":"learner041","cohort":"W2026","program":"PhD"},{"student_id":"S-044","uniqname":"learner044","cohort":"W2026","program":"PhD"},{"student_id":"S-046","uniqname":"learner046","cohort":"W2026","program":"PhD"},{"student_id":"S-047","uniqname":"learner047","cohort":"W2026","program":"PhD"},{"student_id":"S-050","uniqname":"learner050","cohort":"F2025","program":"BSI"},{"student_id":"S-057","uniqname":"learner057","cohort":"W2026","program":"PhD"},{"student_id":"S-058","uniqname":"learner058","cohort":"W2026","program":"PhD"},{"student_id":"S-059","uniqname":"learner059","cohort":"W2026","program":"MSI"},{"student_id":"S-060","uniqname":"learner060","cohort":"W2026","program":"BSI"},{"student_id":"S-061","uniqname":"learner061","cohort":"W2026","program":"BSI"},{"student_id":"S-063","uniqname":"learner063","cohort":"F2025","program":"MHI"},{"student_id":"S-064","uniqname":"learner064","cohort":"F2025","program":"BSI"},{"student_id":"S-065","uniqname":"learner065","cohort":"F2025","program":"MHI"},{"student_id":"S-066","uniqname":"learner066","cohort":"W2026","program":"PhD"},{"student_id":"S-071","uniqname":"learner071","cohort":"W2026","program":"BSI"},{"student_id":"S-075","uniqname":"learner075","cohort":"F2025","program":"MHI"},{"student_id":"S-079","uniqname":"learner079","cohort":"F2025","program":"MSI"},{"student_id":"S-084","uniqname":"learner084","cohort":"F2025","program":"PhD"},{"student_id":"S-086","uniqname":"learner086","cohort":"F2025","program":"MHI"},{"student_id":"S-091","uniqname":"learner091","cohort":"W2025","program":"MHI"},{"student_id":"S-092","uniqname":"learner092","cohort":"W2025","program":"MSI"},{"student_id":"S-093","uniqname":"learner093","cohort":"F2025","program":"BSI"},{"student_id":"S-101","uniqname":"learner101","cohort":"W2025","program":"MHI"},{"student_id":"S-102","uniqname":"learner102","cohort":"F2025","program":"PhD"},{"student_id":"S-107","uniqname":"learner107","cohort":"W2026","program":"BSI"},{"student_id":"S-109","uniqname":"learner109","cohort":"W2026","program":"MHI"},{"student_id":"S-113","uniqname":"learner113","cohort":"W2026","program":"PhD"},{"student_id":"S-119","uniqname":"learner119","cohort":"F2025","program":"MSI"},{"student_id":"S-122","uniqname":"learner122","cohort":"W2026","program":"MSI"},{"student_id":"S-124","uniqname":"learner124","cohort":"W2026","program":"MSI"},{"student_id":"S-132","uniqname":"learner132","cohort":"F2025","program":"MHI"},{"student_id":"S-133","uniqname":"learner133","cohort":"W2025","program":"MSI"},{"student_id":"S-142","uniqname":"learner142","cohort":"W2026","program":"PhD"},{"student_id":"S-146","uniqname":"learner146","cohort":"F2025","program":"PhD"},{"student_id":"S-148","uniqname":"learner148","cohort":"W2026","program":"BSI"},{"student_id":"S-150","uniqname":"learner150","cohort":"F2025","program":"MHI"},{"student_id":"S-151","uniqname":"learner151","cohort":"W2026","program":"MHI"}]},"top_per_domain":{"data_viz":[{"student_id":"S-008","uniqname":"learner008","n_questions":4,"accuracy_pct":100.0},{"student_id":"S-018","uniqname":"learner018","n_questions":4,"accuracy_pct":100.0},{"student_id":"S-024","uniqname":"learner024","n_questions":4,"accuracy_pct":100.0},{"student_id":"S-041","uniqname":"learner041","n_questions":4,"accuracy_pct":100.0},{"student_id":"S-044","uniqname":"learner044","n_questions":4,"accuracy_pct":100.0},{"student_id":"S-050","uniqname":"learner050","n_questions":4,"accuracy_pct":100.0},{"student_id":"S-058","uniqname":"learner058","n_questions":4,"accuracy_pct":100.0},{"student_id":"S-069","uniqname":"learner069","n_questions":4,"accuracy_pct":100.0},{"student_id":"S-084","uniqname":"learner084","n_questions":4,"accuracy_pct":100.0},{"student_id":"S-086","uniqname":"learner086","n_questions":4,"accuracy_pct":100.0}],"pandas_core":[{"student_id":"S-024","uniqname":"learner024","n_questions":6,"accuracy_pct":100.0},{"student_id":"S-055","uniqname":"learner055","n_questions":6,"accuracy_pct":100.0},{"student_id":"S-087","uniqname":"learner087","n_questions":6,"accuracy_pct":100.0},{"student_id":"S-097","uniqname":"learner097","n_questions":6,"accuracy_pct":100.0},{"student_id":"S-102","uniqname":"learner102","n_questions":6,"accuracy_pct":100.0},{"student_id":"S-125","uniqname":"learner125","n_questions":6,"accuracy_pct":100.0},{"student_id":"S-143","uniqname":"learner143","n_questions":6,"accuracy_pct":100.0},{"student_id":"S-165","uniqname":"learner165","n_questions":6,"accuracy_pct":100.0},{"student_id":"S-172","uniqname":"learner172","n_questions":6,"accuracy_pct":100.0},{"student_id":"S-178","uniqname":"learner178","n_questions":6,"accuracy_pct":100.0}],"python_fundamentals":[{"student_id":"S-046","uniqname":"learner046","n_questions":13,"accuracy_pct":100.0},{"student_id":"S-150","uniqname":"learner150","n_questions":13,"accuracy_pct":100.0},{"student_id":"S-224","uniqname":"learner224","n_questions":13,"accuracy_pct":100.0},{"student_id":"S-229","uniqname":"learner229","n_questions":13,"accuracy_pct":100.0},{"student_id":"S-255","uniqname":"learner255","n_questions":13,"accuracy_pct":100.0},{"student_id":"S-321","uniqname":"learner321","n_questions":13,"accuracy_pct":100.0},{"student_id":"S-476","uniqname":"learner476","n_questions":13,"accuracy_pct":100.0},{"student_id":"S-579","uniqname":"learner579","n_questions":13,"accuracy_pct":100.0},{"student_id":"S-606","uniqname":"learner606","n_questions":13,"accuracy_pct":100.0},{"student_id":"S-612","uniqname":"learner612","n_questions":13,"accuracy_pct":100.0}],"sql_duckdb":[{"student_id":"S-011","uniqname":"learner011","n_questions":5,"accuracy_pct":100.0},{"student_id":"S-018","uniqname":"learner018","n_questions":5,"accuracy_pct":100.0},{"student_id":"S-021","uniqname":"learner021","n_questions":5,"accuracy_pct":100.0},{"student_id":"S-039","uniqname":"learner039","n_questions":5,"accuracy_pct":100.0},{"student_id":"S-041","uniqname":"learner041","n_questions":5,"accuracy_pct":100.0},{"student_id":"S-044","uniqname":"learner044","n_questions":5,"accuracy_pct":100.0},{"student_id":"S-065","uniqname":"learner065","n_questions":5,"accuracy_pct":100.0},{"student_id":"S-066","uniqname":"learner066","n_questions":5,"accuracy_pct":100.0},{"student_id":"S-067","uniqname":"learner067","n_questions":5,"accuracy_pct":100.0},{"student_id":"S-071","uniqname":"learner071","n_questions":5,"accuracy_pct":100.0}]},"top_thresholds":{"data_viz":4,"pandas_core":5,"python_fundamentals":5,"sql_duckdb":5},"sequence_trend":[{"sequence_position":2,"mean_response_time":36.666666666666664,"n":3},{"sequence_position":3,"mean_response_time":50.392857142857146,"n":28},{"sequence_position":4,"mean_response_time":52.584245076586434,"n":457},{"sequence_position":5,"mean_response_time":53.645447219983886,"n":1241},{"sequence_position":6,"mean_response_time":53.24444444444445,"n":1215},{"sequence_position":7,"mean_response_time":51.643572621035055,"n":1198},{"sequence_position":8,"mean_response_time":54.361676646706584,"n":835},{"sequence_position":9,"mean_response_time":52.54307432432432,"n":1184},{"sequence_position":10,"mean_response_time":53.30214917825537,"n":791},{"sequence_position":11,"mean_response_time":55.04513064133017,"n":421},{"sequence_position":12,"mean_response_time":52.2541567695962,"n":421},{"sequence_position":13,"mean_response_time":55.71496437054632,"n":421},{"sequence_position":14,"mean_response_time":54.327790973871736,"n":421},{"sequence_position":15,"mean_response_time":54.270783847981,"n":421},{"sequence_position":16,"mean_response_time":53.57482185273159,"n":421},{"sequence_position":17,"mean_response_time":52.7624703087886,"n":421},{"sequence_position":18,"mean_response_time":53.47743467933492,"n":421},{"sequence_position":19,"mean_response_time":51.19002375296912,"n":421},{"sequence_position":20,"mean_response_time":52.05852417302799,"n":393},{"sequence_position":21,"mean_response_time":52.87105263157895,"n":380}],"response_time_histogram":[{"count":0,"lower":0.999,"upper":1.78},{"count":0,"lower":1.78,"upper":3.16},{"count":2,"lower":3.16,"upper":5.62},{"count":109,"lower":5.62,"upper":10.0},{"count":600,"lower":10.0,"upper":17.78},{"count":2593,"lower":17.78,"upper":31.62},{"count":4202,"lower":31.62,"upper":56.23},{"count":3037,"lower":56.23,"upper":100.0},{"count":839,"lower":100.0,"upper":177.83},{"count":132,"lower":177.83,"upper":316.23},{"count":0,"lower":316.23,"upper":562.34},{"count":0,"lower":562.34,"upper":1000.0},{"count":0,"lower":1000.0,"upper":1778.28},{"count":0,"lower":1778.28,"upper":3162.28},{"count":0,"lower":3162.28,"upper":5623.41},{"count":0,"lower":5623.41,"upper":10000.0},{"count":0,"lower":10000.0,"upper":17782.79},{"count":0,"lower":17782.79,"upper":31622.78},{"count":0,"lower":31622.78,"upper":56234.13}],"response_time_by_correctness":[{"domain":"data_viz","correct":53.15779816513761,"incorrect":53.11134453781513},{"domain":"pandas_core","correct":52.49823529411765,"incorrect":54.62259306803595},{"domain":"python_fundamentals","correct":53.69228723404255,"incorrect":52.810179640718566},{"domain":"sql_duckdb","correct":53.419814682822526,"incorrect":50.533018867924525}],"browser_breakdown":[{"metadata_browser":"Chrome","sessions":405},{"metadata_browser":"Edge","sessions":425},{"metadata_browser":"Firefox","sessions":433},{"metadata_browser":"Safari","sessions":399}],"platform_breakdown":[{"platform":"mobile","sessions":424},{"platform":"web","sessions":1408}],"cleaning_steps":[{"step":"Original rows","rows":69628},{"step":"After dedupe","rows":68263},{"step":"Valid student_id","rows":67911},{"step":"Non-blank timestamp","rows":67563}],"question_bank_summary":[{"domain":"data_viz","difficulty":"D1","n":1},{"domain":"data_viz","difficulty":"D2","n":3},{"domain":"pandas_core","difficulty":"D1","n":2},{"domain":"pandas_core","difficulty":"D2","n":4},{"domain":"python_fundamentals","difficulty":"D1","n":3},{"domain":"python_fundamentals","difficulty":"D2","n":8},{"domain":"python_fundamentals","difficulty":"D3","n":2},{"domain":"sql_duckdb","difficulty":"D1","n":1},{"domain":"sql_duckdb","difficulty":"D2","n":2},{"domain":"sql_duckdb","difficulty":"D3","n":2}]}</script>
+<script>
+(function () {
+  "use strict";
+
+  const data = JSON.parse(document.getElementById("dashboard-data").textContent);
+  const fmt = new Intl.NumberFormat("en-US");
+  const fmt1 = (n) => (n == null ? "–" : Number(n).toFixed(1));
+  const fmt2 = (n) => (n == null ? "–" : Number(n).toFixed(2));
+
+  const DOMAIN_COLOR = {
+    python_fundamentals: "#f59e0b",
+    pandas_core: "#2563eb",
+    sql_duckdb: "#10b981",
+    data_viz: "#7c3aed",
+  };
+  const DOMAIN_LABEL = {
+    python_fundamentals: "Python Fundamentals",
+    pandas_core: "Pandas Core",
+    sql_duckdb: "SQL / DuckDB",
+    data_viz: "Data Viz",
+  };
+  const labelDomain = (d) => DOMAIN_LABEL[d] || d;
+
+  Chart.defaults.font.family =
+    "Inter, -apple-system, BlinkMacSystemFont, sans-serif";
+  Chart.defaults.font.size = 12;
+  Chart.defaults.color = "#374151";
+  Chart.defaults.plugins.legend.labels.boxWidth = 12;
+  Chart.defaults.plugins.legend.labels.usePointStyle = true;
+
+  // ---------- Header / byline / about ----------
+  const profile = data.profile || {};
+  const titleEl = document.getElementById("project-title");
+  const subEl = document.getElementById("project-subtitle");
+  const blurbEl = document.getElementById("project-blurb");
+  const eyebrowEl = document.getElementById("eyebrow");
+  if (profile.project_title) titleEl.textContent = profile.project_title;
+  if (profile.project_subtitle) subEl.textContent = profile.project_subtitle;
+  if (profile.project_blurb) blurbEl.textContent = profile.project_blurb;
+  if (profile.tagline) eyebrowEl.textContent = profile.tagline;
+
+  const bylineEl = document.getElementById("byline");
+  const linkEl = (label, href) => {
+    const a = document.createElement("a");
+    a.href = href;
+    a.textContent = label;
+    a.target = "_blank";
+    a.rel = "noopener noreferrer"; // never expose `window.opener` to external sites
+    return a;
+  };
+  const bylineParts = [];
+  if (profile.name) {
+    const s = document.createElement("span");
+    const strong = document.createElement("strong");
+    strong.textContent = profile.name;
+    s.appendChild(strong);
+    bylineParts.push(s);
+  }
+  if (profile.email) bylineParts.push(linkEl(profile.email, "mailto:" + profile.email));
+  if (profile.github) bylineParts.push(linkEl("GitHub", profile.github));
+  if (profile.linkedin) bylineParts.push(linkEl("LinkedIn", profile.linkedin));
+  if (profile.website) bylineParts.push(linkEl("Website", profile.website));
+  bylineParts.forEach((node, i) => {
+    if (i > 0) {
+      const sep = document.createElement("span");
+      sep.className = "sep";
+      sep.textContent = "·";
+      bylineEl.appendChild(sep);
+    }
+    bylineEl.appendChild(node);
+  });
+  if (bylineParts.length === 0) bylineEl.style.display = "none";
+
+  const footer = document.getElementById("footer");
+  if (profile.name && footer) {
+    footer.innerHTML =
+      "Self-contained static dashboard · all identifiers anonymized · &copy; " +
+      new Date().getFullYear() +
+      " " +
+      escapeHtml(profile.name);
+  }
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, (c) => ({
+      "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;",
+    }[c]));
+  }
+
+  // ---------- KPIs ----------
+  const k = data.kpis;
+  const kpiCards = [
+    { label: "Learners", value: fmt.format(k.total_students), sub: "unique anonymized IDs" },
+    {
+      label: "Sessions",
+      value: fmt.format(k.total_sessions),
+      sub: `${fmt.format(k.abandoned_sessions)} abandoned (${fmt1(k.abandoned_pct)}%)`,
+    },
+    {
+      label: "Knowledge responses",
+      value: fmt.format(k.knowledge_responses),
+      sub: `${fmt.format(k.total_responses)} total (incl. self-report)`,
+    },
+    {
+      label: "Overall accuracy",
+      value: fmt1(k.overall_accuracy_pct) + "%",
+      sub: "knowledge / application questions",
+    },
+    {
+      label: "Median response time",
+      value: fmt.format(k.median_response_time) + " s",
+      sub: "per knowledge question",
+    },
+    { label: "Domains", value: k.domains.length, sub: k.domains.map(labelDomain).join(" · ") },
+  ];
+  document.getElementById("kpis").innerHTML = kpiCards
+    .map(
+      (kc) =>
+        `<div class="kpi"><div class="label">${kc.label}</div>` +
+        `<div class="value">${kc.value}</div>` +
+        `<div class="sub">${kc.sub}</div></div>`
+    )
+    .join("");
+
+  // ---------- Domain coverage ----------
+  new Chart(document.getElementById("chart-domain-coverage"), {
+    type: "bar",
+    data: {
+      labels: data.domain_coverage.map((r) => labelDomain(r.domain)),
+      datasets: [
+        {
+          label: "Distinct students",
+          data: data.domain_coverage.map((r) => r.distinct_students),
+          backgroundColor: data.domain_coverage.map((r) => DOMAIN_COLOR[r.domain]),
+          borderRadius: 6,
+        },
+      ],
+    },
+    options: {
+      indexAxis: "y",
+      maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { beginAtZero: true, grid: { color: "#f1f5f9" } },
+        y: { grid: { display: false } },
+      },
+    },
+  });
+
+  // ---------- Sessions stacked ----------
+  new Chart(document.getElementById("chart-sessions-stack"), {
+    type: "bar",
+    data: {
+      labels: data.sessions_by_domain.map((r) => labelDomain(r.domain)),
+      datasets: [
+        {
+          label: "Completed",
+          data: data.sessions_by_domain.map((r) => r.completed),
+          backgroundColor: "#10b981",
+          borderRadius: 4,
+        },
+        {
+          label: "Abandoned",
+          data: data.sessions_by_domain.map((r) => r.abandoned),
+          backgroundColor: "#ef4444",
+          borderRadius: 4,
+        },
+      ],
+    },
+    options: {
+      maintainAspectRatio: false,
+      plugins: { legend: { position: "bottom" } },
+      scales: {
+        x: { stacked: true, grid: { display: false } },
+        y: { stacked: true, beginAtZero: true, grid: { color: "#f1f5f9" } },
+      },
+    },
+  });
+
+  // ---------- Accuracy by difficulty ----------
+  new Chart(document.getElementById("chart-accuracy-difficulty"), {
+    type: "bar",
+    data: {
+      labels: data.accuracy_by_difficulty.map((r) => r.difficulty),
+      datasets: [
+        {
+          label: "Mean accuracy (%)",
+          data: data.accuracy_by_difficulty.map((r) => r.mean_accuracy_pct),
+          backgroundColor: ["#2563eb", "#7c3aed", "#db2777"],
+          borderRadius: 6,
+        },
+      ],
+    },
+    options: {
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: (ctx) => {
+              const r = data.accuracy_by_difficulty[ctx.dataIndex];
+              return `${fmt1(r.mean_accuracy_pct)}% (n=${fmt.format(r.n)})`;
+            },
+          },
+        },
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          max: 100,
+          ticks: { callback: (v) => v + "%" },
+          grid: { color: "#f1f5f9" },
+        },
+        x: { grid: { display: false } },
+      },
+    },
+  });
+
+  // ---------- Cohort × domain heat-style grouped bars ----------
+  const cohorts = Array.from(new Set(data.accuracy_cohort_domain.map((r) => r.cohort))).sort();
+  const domains = k.domains;
+  const cohortDatasets = domains.map((d) => ({
+    label: labelDomain(d),
+    backgroundColor: DOMAIN_COLOR[d],
+    borderRadius: 4,
+    data: cohorts.map((c) => {
+      const row = data.accuracy_cohort_domain.find(
+        (r) => r.cohort === c && r.domain === d
+      );
+      return row ? row.mean_accuracy_pct : null;
+    }),
+  }));
+  new Chart(document.getElementById("chart-cohort-domain"), {
+    type: "bar",
+    data: { labels: cohorts, datasets: cohortDatasets },
+    options: {
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { position: "bottom" },
+        tooltip: {
+          callbacks: {
+            label: (ctx) => `${ctx.dataset.label}: ${fmt1(ctx.parsed.y)}%`,
+          },
+        },
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          max: 100,
+          ticks: { callback: (v) => v + "%" },
+          grid: { color: "#f1f5f9" },
+        },
+        x: { grid: { display: false } },
+      },
+    },
+  });
+
+  // ---------- Response-time histogram ----------
+  const histLabels = data.response_time_histogram.map((r) =>
+    `${fmt2(r.lower)}–${fmt2(r.upper)}s`
+  );
+  new Chart(document.getElementById("chart-rt-hist"), {
+    type: "bar",
+    data: {
+      labels: histLabels,
+      datasets: [
+        {
+          label: "Responses",
+          data: data.response_time_histogram.map((r) => r.count),
+          backgroundColor: "rgba(37,99,235,0.85)",
+          borderRadius: 3,
+        },
+      ],
+    },
+    options: {
+      maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        y: { beginAtZero: true, grid: { color: "#f1f5f9" } },
+        x: {
+          grid: { display: false },
+          ticks: { autoSkip: true, maxRotation: 60, minRotation: 60 },
+        },
+      },
+    },
+  });
+
+  // ---------- Sequence trend ----------
+  new Chart(document.getElementById("chart-seq-trend"), {
+    type: "line",
+    data: {
+      labels: data.sequence_trend.map((r) => r.sequence_position),
+      datasets: [
+        {
+          label: "Mean response time (s)",
+          data: data.sequence_trend.map((r) => r.mean_response_time),
+          borderColor: "#7c3aed",
+          backgroundColor: "rgba(124,58,237,0.12)",
+          fill: true,
+          tension: 0.25,
+          pointRadius: 3,
+        },
+      ],
+    },
+    options: {
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: (ctx) => {
+              const r = data.sequence_trend[ctx.dataIndex];
+              return `${fmt1(r.mean_response_time)}s · n=${fmt.format(r.n)}`;
+            },
+          },
+        },
+      },
+      scales: {
+        y: { beginAtZero: true, grid: { color: "#f1f5f9" } },
+        x: {
+          title: { display: true, text: "Sequence position" },
+          grid: { display: false },
+        },
+      },
+    },
+  });
+
+  // ---------- RT correct vs incorrect ----------
+  const rtRows = data.response_time_by_correctness;
+  new Chart(document.getElementById("chart-rt-correct"), {
+    type: "bar",
+    data: {
+      labels: rtRows.map((r) => labelDomain(r.domain)),
+      datasets: [
+        {
+          label: "Correct",
+          data: rtRows.map((r) => r.correct),
+          backgroundColor: "#10b981",
+          borderRadius: 4,
+        },
+        {
+          label: "Incorrect",
+          data: rtRows.map((r) => r.incorrect),
+          backgroundColor: "#ef4444",
+          borderRadius: 4,
+        },
+      ],
+    },
+    options: {
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { position: "bottom" },
+        tooltip: {
+          callbacks: { label: (ctx) => `${ctx.dataset.label}: ${fmt1(ctx.parsed.y)}s` },
+        },
+      },
+      scales: {
+        y: { beginAtZero: true, grid: { color: "#f1f5f9" }, title: { display: true, text: "Mean seconds" } },
+        x: { grid: { display: false } },
+      },
+    },
+  });
+
+  // ---------- Top performers tabs ----------
+  const tabs = document.getElementById("top-tabs");
+  const tableHost = document.getElementById("top-table");
+  const topDomains = Object.keys(data.top_per_domain);
+  let activeDomain = topDomains[0];
+
+  function renderTop() {
+    tabs.innerHTML = topDomains
+      .map(
+        (d) =>
+          `<button class="tab ${d === activeDomain ? "active" : ""}" data-d="${d}">${labelDomain(d)}</button>`
+      )
+      .join("");
+    tabs.querySelectorAll(".tab").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        activeDomain = btn.dataset.d;
+        renderTop();
+      });
+    });
+    const rows = data.top_per_domain[activeDomain] || [];
+    const threshold = (data.top_thresholds || {})[activeDomain];
+    const cap = document.getElementById("top-caption");
+    if (cap) {
+      cap.textContent = threshold
+        ? `Switch domains to see leaders in each subject area. Showing learners with ≥ ${threshold} knowledge questions in ${labelDomain(activeDomain)}. All IDs anonymized.`
+        : "Switch domains to see leaders in each subject area. All IDs anonymized.";
+    }
+    tableHost.innerHTML =
+      `<table class="data"><thead><tr>` +
+      `<th style="width:40px">#</th><th>Learner</th>` +
+      `<th style="text-align:right">Questions</th><th style="text-align:right">Accuracy</th>` +
+      `<th style="width: 30%">&nbsp;</th>` +
+      `</tr></thead><tbody>` +
+      rows
+        .map(
+          (r, i) =>
+            `<tr><td>${i + 1}</td>` +
+            `<td><strong class="mono">${escapeHtml(r.student_id)}</strong></td>` +
+            `<td style="text-align:right">${r.n_questions}</td>` +
+            `<td style="text-align:right">${fmt1(r.accuracy_pct)}%</td>` +
+            `<td><div class="progress-bar"><span style="width:${Math.min(
+              100,
+              r.accuracy_pct
+            )}%"></span></div></td></tr>`
+        )
+        .join("") +
+      `</tbody></table>`;
+  }
+  renderTop();
+
+  // ---------- Completers ----------
+  const comp = data.all_four_completers;
+  document.getElementById(
+    "completers-summary"
+  ).textContent = `${fmt.format(comp.count)} learners cleared all four domains. Showing first ${comp.students.length} (sorted by anonymized ID).`;
+  document.querySelector("#completers-table tbody").innerHTML = comp.students
+    .map(
+      (s) =>
+        `<tr><td><strong class="mono">${escapeHtml(s.student_id || "–")}</strong></td>` +
+        `<td>${escapeHtml(s.cohort || "–")}</td>` +
+        `<td>${escapeHtml(s.program || "–")}</td></tr>`
+    )
+    .join("");
+
+  // ---------- Cleaning steps ----------
+  const start = data.cleaning_steps[0]?.rows || 1;
+  document.querySelector("#cleaning-table tbody").innerHTML = data.cleaning_steps
+    .map(
+      (s) =>
+        `<tr><td>${s.step}</td><td style="text-align:right">${fmt.format(s.rows)}</td>` +
+        `<td style="text-align:right">${fmt1((s.rows / start) * 100)}%</td></tr>`
+    )
+    .join("");
+
+  // ---------- Question-bank summary ----------
+  const qb = data.question_bank_summary;
+  const qbDomains = Array.from(new Set(qb.map((r) => r.domain))).sort();
+  const difficulties = ["D1", "D2", "D3"];
+  const qbDatasets = difficulties.map((diff, i) => ({
+    label: diff,
+    backgroundColor: ["#2563eb", "#7c3aed", "#db2777"][i],
+    borderRadius: 4,
+    data: qbDomains.map((d) => {
+      const row = qb.find((r) => r.domain === d && r.difficulty === diff);
+      return row ? row.n : 0;
+    }),
+  }));
+  new Chart(document.getElementById("chart-qbank"), {
+    type: "bar",
+    data: { labels: qbDomains.map(labelDomain), datasets: qbDatasets },
+    options: {
+      maintainAspectRatio: false,
+      plugins: { legend: { position: "bottom" } },
+      scales: {
+        x: { stacked: true, grid: { display: false } },
+        y: { stacked: true, beginAtZero: true, grid: { color: "#f1f5f9" } },
+      },
+    },
+  });
+
+  // ---------- Recap "see chart" links: scroll target + flash highlight ----------
+  // The CSS :target selector only fires when the URL hash changes, so clicking
+  // the same link twice in a row would not re-trigger the pulse. This handler
+  // toggles a "flash" class on every click so the highlight always plays.
+  document.querySelectorAll(".finding-source").forEach((link) => {
+    link.addEventListener("click", () => {
+      const href = link.getAttribute("href") || "";
+      if (!href.startsWith("#")) return;
+      const target = document.getElementById(href.slice(1));
+      if (!target) return;
+      target.classList.remove("flash");
+      // force a reflow so removing + re-adding the class restarts the animation
+      void target.offsetWidth;
+      target.classList.add("flash");
+    });
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,1047 @@
+{
+  "profile": {
+    "name": "Celine Darvas",
+    "tagline": "Data analyst \u00b7 learning analytics \u00b7 multi-source ETL",
+    "email": "ceiliine@umich.edu",
+    "website": "",
+    "project_title": "Learning Analytics Dashboard",
+    "project_subtitle": "Response-time behavior and accuracy patterns across 520 learners and four assessment domains.",
+    "project_blurb": "19,608 student responses across four technical subjects (Python, Pandas, SQL/DuckDB, Data Visualization). Source data came in four different formats. I loaded and cleaned them in Python, ran the analysis in 8 DuckDB SQL queries, then built this self-contained dashboard."
+  },
+  "kpis": {
+    "total_students": 520,
+    "total_sessions": 1832,
+    "abandoned_sessions": 170,
+    "abandoned_pct": 9.27947598253275,
+    "total_responses": 19608,
+    "knowledge_responses": 11514,
+    "overall_accuracy_pct": 69.07243355914538,
+    "median_response_time": 44.0,
+    "domains": [
+      "data_viz",
+      "pandas_core",
+      "python_fundamentals",
+      "sql_duckdb"
+    ],
+    "cohorts": [
+      "F2025",
+      "W2025",
+      "W2026"
+    ]
+  },
+  "domain_coverage": [
+    {
+      "domain": "pandas_core",
+      "distinct_students": 421
+    },
+    {
+      "domain": "python_fundamentals",
+      "distinct_students": 421
+    },
+    {
+      "domain": "sql_duckdb",
+      "distinct_students": 417
+    },
+    {
+      "domain": "data_viz",
+      "distinct_students": 403
+    }
+  ],
+  "sessions_by_domain": [
+    {
+      "domain": "data_viz",
+      "total": 456,
+      "abandoned": 53,
+      "completed": 403
+    },
+    {
+      "domain": "pandas_core",
+      "total": 461,
+      "abandoned": 40,
+      "completed": 421
+    },
+    {
+      "domain": "python_fundamentals",
+      "total": 461,
+      "abandoned": 40,
+      "completed": 421
+    },
+    {
+      "domain": "sql_duckdb",
+      "total": 454,
+      "abandoned": 37,
+      "completed": 417
+    }
+  ],
+  "accuracy_by_difficulty": [
+    {
+      "difficulty": "D1",
+      "mean_accuracy_pct": 69.92715920915713,
+      "n": 2883
+    },
+    {
+      "difficulty": "D2",
+      "mean_accuracy_pct": 69.03225806451613,
+      "n": 6975
+    },
+    {
+      "difficulty": "D3",
+      "mean_accuracy_pct": 67.7536231884058,
+      "n": 1656
+    }
+  ],
+  "accuracy_cohort_domain": [
+    {
+      "cohort": "F2025",
+      "domain": "data_viz",
+      "mean_accuracy_pct": 67.46031746031747,
+      "n_responses": 504
+    },
+    {
+      "cohort": "F2025",
+      "domain": "pandas_core",
+      "mean_accuracy_pct": 70.550576184379,
+      "n_responses": 781
+    },
+    {
+      "cohort": "F2025",
+      "domain": "python_fundamentals",
+      "mean_accuracy_pct": 69.85008328706274,
+      "n_responses": 1801
+    },
+    {
+      "cohort": "F2025",
+      "domain": "sql_duckdb",
+      "mean_accuracy_pct": 69.04761904761905,
+      "n_responses": 672
+    },
+    {
+      "cohort": "W2025",
+      "domain": "data_viz",
+      "mean_accuracy_pct": 74.52830188679245,
+      "n_responses": 212
+    },
+    {
+      "cohort": "W2025",
+      "domain": "pandas_core",
+      "mean_accuracy_pct": 66.34615384615384,
+      "n_responses": 312
+    },
+    {
+      "cohort": "W2025",
+      "domain": "python_fundamentals",
+      "mean_accuracy_pct": 69.9468085106383,
+      "n_responses": 752
+    },
+    {
+      "cohort": "W2025",
+      "domain": "sql_duckdb",
+      "mean_accuracy_pct": 67.29323308270678,
+      "n_responses": 266
+    },
+    {
+      "cohort": "W2026",
+      "domain": "data_viz",
+      "mean_accuracy_pct": 69.6470588235294,
+      "n_responses": 850
+    },
+    {
+      "cohort": "W2026",
+      "domain": "pandas_core",
+      "mean_accuracy_pct": 67.96536796536796,
+      "n_responses": 1386
+    },
+    {
+      "cohort": "W2026",
+      "domain": "python_fundamentals",
+      "mean_accuracy_pct": 68.68265554396942,
+      "n_responses": 2877
+    },
+    {
+      "cohort": "W2026",
+      "domain": "sql_duckdb",
+      "mean_accuracy_pct": 69.02815622161671,
+      "n_responses": 1101
+    }
+  ],
+  "all_four_completers": {
+    "count": 248,
+    "students": [
+      {
+        "student_id": "S-001",
+        "uniqname": "learner001",
+        "cohort": "F2025",
+        "program": "MHI"
+      },
+      {
+        "student_id": "S-006",
+        "uniqname": "learner006",
+        "cohort": "F2025",
+        "program": "PhD"
+      },
+      {
+        "student_id": "S-008",
+        "uniqname": "learner008",
+        "cohort": "W2026",
+        "program": "MHI"
+      },
+      {
+        "student_id": "S-009",
+        "uniqname": "learner009",
+        "cohort": "W2026",
+        "program": "PhD"
+      },
+      {
+        "student_id": "S-015",
+        "uniqname": "learner015",
+        "cohort": "F2025",
+        "program": "BSI"
+      },
+      {
+        "student_id": "S-018",
+        "uniqname": "learner018",
+        "cohort": "W2025",
+        "program": "MSI"
+      },
+      {
+        "student_id": "S-021",
+        "uniqname": "learner021",
+        "cohort": "W2026",
+        "program": "MHI"
+      },
+      {
+        "student_id": "S-023",
+        "uniqname": "learner023",
+        "cohort": "W2026",
+        "program": "MHI"
+      },
+      {
+        "student_id": "S-024",
+        "uniqname": "learner024",
+        "cohort": "F2025",
+        "program": "PhD"
+      },
+      {
+        "student_id": "S-030",
+        "uniqname": "learner030",
+        "cohort": "F2025",
+        "program": "BSI"
+      },
+      {
+        "student_id": "S-031",
+        "uniqname": "learner031",
+        "cohort": "W2026",
+        "program": "PhD"
+      },
+      {
+        "student_id": "S-035",
+        "uniqname": "learner035",
+        "cohort": "W2026",
+        "program": "MHI"
+      },
+      {
+        "student_id": "S-039",
+        "uniqname": "learner039",
+        "cohort": "W2026",
+        "program": "PhD"
+      },
+      {
+        "student_id": "S-041",
+        "uniqname": "learner041",
+        "cohort": "W2026",
+        "program": "PhD"
+      },
+      {
+        "student_id": "S-044",
+        "uniqname": "learner044",
+        "cohort": "W2026",
+        "program": "PhD"
+      },
+      {
+        "student_id": "S-046",
+        "uniqname": "learner046",
+        "cohort": "W2026",
+        "program": "PhD"
+      },
+      {
+        "student_id": "S-047",
+        "uniqname": "learner047",
+        "cohort": "W2026",
+        "program": "PhD"
+      },
+      {
+        "student_id": "S-050",
+        "uniqname": "learner050",
+        "cohort": "F2025",
+        "program": "BSI"
+      },
+      {
+        "student_id": "S-057",
+        "uniqname": "learner057",
+        "cohort": "W2026",
+        "program": "PhD"
+      },
+      {
+        "student_id": "S-058",
+        "uniqname": "learner058",
+        "cohort": "W2026",
+        "program": "PhD"
+      },
+      {
+        "student_id": "S-059",
+        "uniqname": "learner059",
+        "cohort": "W2026",
+        "program": "MSI"
+      },
+      {
+        "student_id": "S-060",
+        "uniqname": "learner060",
+        "cohort": "W2026",
+        "program": "BSI"
+      },
+      {
+        "student_id": "S-061",
+        "uniqname": "learner061",
+        "cohort": "W2026",
+        "program": "BSI"
+      },
+      {
+        "student_id": "S-063",
+        "uniqname": "learner063",
+        "cohort": "F2025",
+        "program": "MHI"
+      },
+      {
+        "student_id": "S-064",
+        "uniqname": "learner064",
+        "cohort": "F2025",
+        "program": "BSI"
+      },
+      {
+        "student_id": "S-065",
+        "uniqname": "learner065",
+        "cohort": "F2025",
+        "program": "MHI"
+      },
+      {
+        "student_id": "S-066",
+        "uniqname": "learner066",
+        "cohort": "W2026",
+        "program": "PhD"
+      },
+      {
+        "student_id": "S-071",
+        "uniqname": "learner071",
+        "cohort": "W2026",
+        "program": "BSI"
+      },
+      {
+        "student_id": "S-075",
+        "uniqname": "learner075",
+        "cohort": "F2025",
+        "program": "MHI"
+      },
+      {
+        "student_id": "S-079",
+        "uniqname": "learner079",
+        "cohort": "F2025",
+        "program": "MSI"
+      },
+      {
+        "student_id": "S-084",
+        "uniqname": "learner084",
+        "cohort": "F2025",
+        "program": "PhD"
+      },
+      {
+        "student_id": "S-086",
+        "uniqname": "learner086",
+        "cohort": "F2025",
+        "program": "MHI"
+      },
+      {
+        "student_id": "S-091",
+        "uniqname": "learner091",
+        "cohort": "W2025",
+        "program": "MHI"
+      },
+      {
+        "student_id": "S-092",
+        "uniqname": "learner092",
+        "cohort": "W2025",
+        "program": "MSI"
+      },
+      {
+        "student_id": "S-093",
+        "uniqname": "learner093",
+        "cohort": "F2025",
+        "program": "BSI"
+      },
+      {
+        "student_id": "S-101",
+        "uniqname": "learner101",
+        "cohort": "W2025",
+        "program": "MHI"
+      },
+      {
+        "student_id": "S-102",
+        "uniqname": "learner102",
+        "cohort": "F2025",
+        "program": "PhD"
+      },
+      {
+        "student_id": "S-107",
+        "uniqname": "learner107",
+        "cohort": "W2026",
+        "program": "BSI"
+      },
+      {
+        "student_id": "S-109",
+        "uniqname": "learner109",
+        "cohort": "W2026",
+        "program": "MHI"
+      },
+      {
+        "student_id": "S-113",
+        "uniqname": "learner113",
+        "cohort": "W2026",
+        "program": "PhD"
+      },
+      {
+        "student_id": "S-119",
+        "uniqname": "learner119",
+        "cohort": "F2025",
+        "program": "MSI"
+      },
+      {
+        "student_id": "S-122",
+        "uniqname": "learner122",
+        "cohort": "W2026",
+        "program": "MSI"
+      },
+      {
+        "student_id": "S-124",
+        "uniqname": "learner124",
+        "cohort": "W2026",
+        "program": "MSI"
+      },
+      {
+        "student_id": "S-132",
+        "uniqname": "learner132",
+        "cohort": "F2025",
+        "program": "MHI"
+      },
+      {
+        "student_id": "S-133",
+        "uniqname": "learner133",
+        "cohort": "W2025",
+        "program": "MSI"
+      },
+      {
+        "student_id": "S-142",
+        "uniqname": "learner142",
+        "cohort": "W2026",
+        "program": "PhD"
+      },
+      {
+        "student_id": "S-146",
+        "uniqname": "learner146",
+        "cohort": "F2025",
+        "program": "PhD"
+      },
+      {
+        "student_id": "S-148",
+        "uniqname": "learner148",
+        "cohort": "W2026",
+        "program": "BSI"
+      },
+      {
+        "student_id": "S-150",
+        "uniqname": "learner150",
+        "cohort": "F2025",
+        "program": "MHI"
+      },
+      {
+        "student_id": "S-151",
+        "uniqname": "learner151",
+        "cohort": "W2026",
+        "program": "MHI"
+      }
+    ]
+  },
+  "top_per_domain": {
+    "data_viz": [
+      {
+        "student_id": "S-008",
+        "uniqname": "learner008",
+        "n_questions": 4,
+        "accuracy_pct": 100.0
+      },
+      {
+        "student_id": "S-018",
+        "uniqname": "learner018",
+        "n_questions": 4,
+        "accuracy_pct": 100.0
+      },
+      {
+        "student_id": "S-024",
+        "uniqname": "learner024",
+        "n_questions": 4,
+        "accuracy_pct": 100.0
+      },
+      {
+        "student_id": "S-041",
+        "uniqname": "learner041",
+        "n_questions": 4,
+        "accuracy_pct": 100.0
+      },
+      {
+        "student_id": "S-044",
+        "uniqname": "learner044",
+        "n_questions": 4,
+        "accuracy_pct": 100.0
+      },
+      {
+        "student_id": "S-050",
+        "uniqname": "learner050",
+        "n_questions": 4,
+        "accuracy_pct": 100.0
+      },
+      {
+        "student_id": "S-058",
+        "uniqname": "learner058",
+        "n_questions": 4,
+        "accuracy_pct": 100.0
+      },
+      {
+        "student_id": "S-069",
+        "uniqname": "learner069",
+        "n_questions": 4,
+        "accuracy_pct": 100.0
+      },
+      {
+        "student_id": "S-084",
+        "uniqname": "learner084",
+        "n_questions": 4,
+        "accuracy_pct": 100.0
+      },
+      {
+        "student_id": "S-086",
+        "uniqname": "learner086",
+        "n_questions": 4,
+        "accuracy_pct": 100.0
+      }
+    ],
+    "pandas_core": [
+      {
+        "student_id": "S-024",
+        "uniqname": "learner024",
+        "n_questions": 6,
+        "accuracy_pct": 100.0
+      },
+      {
+        "student_id": "S-055",
+        "uniqname": "learner055",
+        "n_questions": 6,
+        "accuracy_pct": 100.0
+      },
+      {
+        "student_id": "S-087",
+        "uniqname": "learner087",
+        "n_questions": 6,
+        "accuracy_pct": 100.0
+      },
+      {
+        "student_id": "S-097",
+        "uniqname": "learner097",
+        "n_questions": 6,
+        "accuracy_pct": 100.0
+      },
+      {
+        "student_id": "S-102",
+        "uniqname": "learner102",
+        "n_questions": 6,
+        "accuracy_pct": 100.0
+      },
+      {
+        "student_id": "S-125",
+        "uniqname": "learner125",
+        "n_questions": 6,
+        "accuracy_pct": 100.0
+      },
+      {
+        "student_id": "S-143",
+        "uniqname": "learner143",
+        "n_questions": 6,
+        "accuracy_pct": 100.0
+      },
+      {
+        "student_id": "S-165",
+        "uniqname": "learner165",
+        "n_questions": 6,
+        "accuracy_pct": 100.0
+      },
+      {
+        "student_id": "S-172",
+        "uniqname": "learner172",
+        "n_questions": 6,
+        "accuracy_pct": 100.0
+      },
+      {
+        "student_id": "S-178",
+        "uniqname": "learner178",
+        "n_questions": 6,
+        "accuracy_pct": 100.0
+      }
+    ],
+    "python_fundamentals": [
+      {
+        "student_id": "S-046",
+        "uniqname": "learner046",
+        "n_questions": 13,
+        "accuracy_pct": 100.0
+      },
+      {
+        "student_id": "S-150",
+        "uniqname": "learner150",
+        "n_questions": 13,
+        "accuracy_pct": 100.0
+      },
+      {
+        "student_id": "S-224",
+        "uniqname": "learner224",
+        "n_questions": 13,
+        "accuracy_pct": 100.0
+      },
+      {
+        "student_id": "S-229",
+        "uniqname": "learner229",
+        "n_questions": 13,
+        "accuracy_pct": 100.0
+      },
+      {
+        "student_id": "S-255",
+        "uniqname": "learner255",
+        "n_questions": 13,
+        "accuracy_pct": 100.0
+      },
+      {
+        "student_id": "S-321",
+        "uniqname": "learner321",
+        "n_questions": 13,
+        "accuracy_pct": 100.0
+      },
+      {
+        "student_id": "S-476",
+        "uniqname": "learner476",
+        "n_questions": 13,
+        "accuracy_pct": 100.0
+      },
+      {
+        "student_id": "S-579",
+        "uniqname": "learner579",
+        "n_questions": 13,
+        "accuracy_pct": 100.0
+      },
+      {
+        "student_id": "S-606",
+        "uniqname": "learner606",
+        "n_questions": 13,
+        "accuracy_pct": 100.0
+      },
+      {
+        "student_id": "S-612",
+        "uniqname": "learner612",
+        "n_questions": 13,
+        "accuracy_pct": 100.0
+      }
+    ],
+    "sql_duckdb": [
+      {
+        "student_id": "S-011",
+        "uniqname": "learner011",
+        "n_questions": 5,
+        "accuracy_pct": 100.0
+      },
+      {
+        "student_id": "S-018",
+        "uniqname": "learner018",
+        "n_questions": 5,
+        "accuracy_pct": 100.0
+      },
+      {
+        "student_id": "S-021",
+        "uniqname": "learner021",
+        "n_questions": 5,
+        "accuracy_pct": 100.0
+      },
+      {
+        "student_id": "S-039",
+        "uniqname": "learner039",
+        "n_questions": 5,
+        "accuracy_pct": 100.0
+      },
+      {
+        "student_id": "S-041",
+        "uniqname": "learner041",
+        "n_questions": 5,
+        "accuracy_pct": 100.0
+      },
+      {
+        "student_id": "S-044",
+        "uniqname": "learner044",
+        "n_questions": 5,
+        "accuracy_pct": 100.0
+      },
+      {
+        "student_id": "S-065",
+        "uniqname": "learner065",
+        "n_questions": 5,
+        "accuracy_pct": 100.0
+      },
+      {
+        "student_id": "S-066",
+        "uniqname": "learner066",
+        "n_questions": 5,
+        "accuracy_pct": 100.0
+      },
+      {
+        "student_id": "S-067",
+        "uniqname": "learner067",
+        "n_questions": 5,
+        "accuracy_pct": 100.0
+      },
+      {
+        "student_id": "S-071",
+        "uniqname": "learner071",
+        "n_questions": 5,
+        "accuracy_pct": 100.0
+      }
+    ]
+  },
+  "top_thresholds": {
+    "data_viz": 4,
+    "pandas_core": 5,
+    "python_fundamentals": 5,
+    "sql_duckdb": 5
+  },
+  "sequence_trend": [
+    {
+      "sequence_position": 2,
+      "mean_response_time": 36.666666666666664,
+      "n": 3
+    },
+    {
+      "sequence_position": 3,
+      "mean_response_time": 50.392857142857146,
+      "n": 28
+    },
+    {
+      "sequence_position": 4,
+      "mean_response_time": 52.584245076586434,
+      "n": 457
+    },
+    {
+      "sequence_position": 5,
+      "mean_response_time": 53.645447219983886,
+      "n": 1241
+    },
+    {
+      "sequence_position": 6,
+      "mean_response_time": 53.24444444444445,
+      "n": 1215
+    },
+    {
+      "sequence_position": 7,
+      "mean_response_time": 51.643572621035055,
+      "n": 1198
+    },
+    {
+      "sequence_position": 8,
+      "mean_response_time": 54.361676646706584,
+      "n": 835
+    },
+    {
+      "sequence_position": 9,
+      "mean_response_time": 52.54307432432432,
+      "n": 1184
+    },
+    {
+      "sequence_position": 10,
+      "mean_response_time": 53.30214917825537,
+      "n": 791
+    },
+    {
+      "sequence_position": 11,
+      "mean_response_time": 55.04513064133017,
+      "n": 421
+    },
+    {
+      "sequence_position": 12,
+      "mean_response_time": 52.2541567695962,
+      "n": 421
+    },
+    {
+      "sequence_position": 13,
+      "mean_response_time": 55.71496437054632,
+      "n": 421
+    },
+    {
+      "sequence_position": 14,
+      "mean_response_time": 54.327790973871736,
+      "n": 421
+    },
+    {
+      "sequence_position": 15,
+      "mean_response_time": 54.270783847981,
+      "n": 421
+    },
+    {
+      "sequence_position": 16,
+      "mean_response_time": 53.57482185273159,
+      "n": 421
+    },
+    {
+      "sequence_position": 17,
+      "mean_response_time": 52.7624703087886,
+      "n": 421
+    },
+    {
+      "sequence_position": 18,
+      "mean_response_time": 53.47743467933492,
+      "n": 421
+    },
+    {
+      "sequence_position": 19,
+      "mean_response_time": 51.19002375296912,
+      "n": 421
+    },
+    {
+      "sequence_position": 20,
+      "mean_response_time": 52.05852417302799,
+      "n": 393
+    },
+    {
+      "sequence_position": 21,
+      "mean_response_time": 52.87105263157895,
+      "n": 380
+    }
+  ],
+  "response_time_histogram": [
+    {
+      "count": 0,
+      "lower": 0.999,
+      "upper": 1.78
+    },
+    {
+      "count": 0,
+      "lower": 1.78,
+      "upper": 3.16
+    },
+    {
+      "count": 2,
+      "lower": 3.16,
+      "upper": 5.62
+    },
+    {
+      "count": 109,
+      "lower": 5.62,
+      "upper": 10.0
+    },
+    {
+      "count": 600,
+      "lower": 10.0,
+      "upper": 17.78
+    },
+    {
+      "count": 2593,
+      "lower": 17.78,
+      "upper": 31.62
+    },
+    {
+      "count": 4202,
+      "lower": 31.62,
+      "upper": 56.23
+    },
+    {
+      "count": 3037,
+      "lower": 56.23,
+      "upper": 100.0
+    },
+    {
+      "count": 839,
+      "lower": 100.0,
+      "upper": 177.83
+    },
+    {
+      "count": 132,
+      "lower": 177.83,
+      "upper": 316.23
+    },
+    {
+      "count": 0,
+      "lower": 316.23,
+      "upper": 562.34
+    },
+    {
+      "count": 0,
+      "lower": 562.34,
+      "upper": 1000.0
+    },
+    {
+      "count": 0,
+      "lower": 1000.0,
+      "upper": 1778.28
+    },
+    {
+      "count": 0,
+      "lower": 1778.28,
+      "upper": 3162.28
+    },
+    {
+      "count": 0,
+      "lower": 3162.28,
+      "upper": 5623.41
+    },
+    {
+      "count": 0,
+      "lower": 5623.41,
+      "upper": 10000.0
+    },
+    {
+      "count": 0,
+      "lower": 10000.0,
+      "upper": 17782.79
+    },
+    {
+      "count": 0,
+      "lower": 17782.79,
+      "upper": 31622.78
+    },
+    {
+      "count": 0,
+      "lower": 31622.78,
+      "upper": 56234.13
+    }
+  ],
+  "response_time_by_correctness": [
+    {
+      "domain": "data_viz",
+      "correct": 53.15779816513761,
+      "incorrect": 53.11134453781513
+    },
+    {
+      "domain": "pandas_core",
+      "correct": 52.49823529411765,
+      "incorrect": 54.62259306803595
+    },
+    {
+      "domain": "python_fundamentals",
+      "correct": 53.69228723404255,
+      "incorrect": 52.810179640718566
+    },
+    {
+      "domain": "sql_duckdb",
+      "correct": 53.419814682822526,
+      "incorrect": 50.533018867924525
+    }
+  ],
+  "browser_breakdown": [
+    {
+      "metadata_browser": "Chrome",
+      "sessions": 405
+    },
+    {
+      "metadata_browser": "Edge",
+      "sessions": 425
+    },
+    {
+      "metadata_browser": "Firefox",
+      "sessions": 433
+    },
+    {
+      "metadata_browser": "Safari",
+      "sessions": 399
+    }
+  ],
+  "platform_breakdown": [
+    {
+      "platform": "mobile",
+      "sessions": 424
+    },
+    {
+      "platform": "web",
+      "sessions": 1408
+    }
+  ],
+  "cleaning_steps": [
+    {
+      "step": "Original rows",
+      "rows": 69628
+    },
+    {
+      "step": "After dedupe",
+      "rows": 68263
+    },
+    {
+      "step": "Valid student_id",
+      "rows": 67911
+    },
+    {
+      "step": "Non-blank timestamp",
+      "rows": 67563
+    }
+  ],
+  "question_bank_summary": [
+    {
+      "domain": "data_viz",
+      "difficulty": "D1",
+      "n": 1
+    },
+    {
+      "domain": "data_viz",
+      "difficulty": "D2",
+      "n": 3
+    },
+    {
+      "domain": "pandas_core",
+      "difficulty": "D1",
+      "n": 2
+    },
+    {
+      "domain": "pandas_core",
+      "difficulty": "D2",
+      "n": 4
+    },
+    {
+      "domain": "python_fundamentals",
+      "difficulty": "D1",
+      "n": 3
+    },
+    {
+      "domain": "python_fundamentals",
+      "difficulty": "D2",
+      "n": 8
+    },
+    {
+      "domain": "python_fundamentals",
+      "difficulty": "D3",
+      "n": 2
+    },
+    {
+      "domain": "sql_duckdb",
+      "difficulty": "D1",
+      "n": 1
+    },
+    {
+      "domain": "sql_duckdb",
+      "difficulty": "D2",
+      "n": 2
+    },
+    {
+      "domain": "sql_duckdb",
+      "difficulty": "D3",
+      "n": 2
+    }
+  ]
+}
