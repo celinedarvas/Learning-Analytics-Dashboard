@@ -4,7 +4,7 @@
 
 **8 DuckDB SQL queries on 19,608 student responses, presented as a self-contained dashboard.**
 
-[Live demo](#) · [SQL queries](2_sql_analysis/) · [Dashboard source](3_dashboard/index.html)
+[SQL queries](2_sql_analysis/) · [Dashboard source](3_dashboard/index.html)
 
 520 learners · 1,832 sessions · 19,608 responses · 4 technical assessment domains
 
